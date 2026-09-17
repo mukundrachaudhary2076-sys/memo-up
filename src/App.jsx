@@ -20,7 +20,6 @@ function App() {
   const handleSelect= (note) => {
     // console.log(note);
     setSelectedNote(note);
-    setEditedText(note.text);
   }
 
   const handleDelete = (noteId) =>{
@@ -31,24 +30,29 @@ function App() {
     if(filterdNote.length> 0){
       const lastNote = filterdNote[filterdNote.length - 1];
       setSelectedNote(lastNote);
-      setEditedText(lastNote.text);
+    
+    } else {
+      setSelectedNote(null);
     }
-  }
+}
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
+  const handleChange=(e)=>{
+    // console.log(e.target.value);
     setEditedText(e.target.value);
   }
-  const handleSave = () => {
-    const updatedNotes = notes.map((note) => {
+
+  const handleSave=()=>{
+    const updatedNotes = notes.map((note)=>{
       if(note.id === selectedNote.id){
-        return {...note, text: editedText};
+        return {...note, text: editedText}
       }
       return note;
     });
     console.log(updatedNotes);
     setNotes(updatedNotes);
   }
+    
+  
 
   return (
     <div className="app-container">
@@ -57,8 +61,7 @@ function App() {
         <button id="create"onClick={handleNoteAdd}>ノート追加</button>
         <ul>
           {notes.map((note)=>(
-            
-          <li id={note.id}className={selectedNote.id===note.id ?"selected":""}>
+            <li id={note.id}className={selectedNote.id===note.id ?"selected":""}>
             <button onClick={() => handleDelete(note.id)} className='delete'>削除</button>
             <span onClick={() => handleSelect(note)}>{note.text}</span>
           </li>
@@ -69,10 +72,10 @@ function App() {
       <div className='main'>
         {selectedNote ? (
           <>
-          <h2>内容 
-          </h2>
+          <h2>内容</h2>
           <textarea value={editedText} onChange={handleChange}/>
           <button onClick={handleSave} className='save'>保存</button>
+
           </>
         ) : (
           <div>
